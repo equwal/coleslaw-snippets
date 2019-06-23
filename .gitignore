@@ -1,0 +1,5 @@
+*~
+*.html
+\#*
+*.pandoc
+*.elc

@@ -1,0 +1,31 @@
+#+TITLE: Coleslaw Snippets
+#+AUTHOR: Spenser Truex
+#+EMAIL: web@spensertruex.com
+
+** Snippets for all Coleslaw markdown files
+- Also see coleslaw-mode for dispatching the mode based on the =format:= header.
+- To install for coleslaw-mode, add
+#+BEGIN_SRC emacs-lisp :tangle no
+(add-hook 'coleslaw-mode-hook 'coleslaw-snippets)
+#+END_SRC
+to your init file, and bind =coleslaw-insert-header= to a key like
+
+#+BEGIN_SRC emacs-lisp :tangle no
+(global-set-key (kbd "C-c H") 'coleslaw-insert-header)
+#+END_SRC
+
+You may also choose to use the =autoinsert= package to automatically insert the
+snippets into coleslaw markdown files. Then you would add:
+
+#+BEGIN_SRC emacs-lisp :tangle no
+(dolist (type '("\\.page\\'" "\\.post\\'"))
+  (add-to-list 'auto-mode-alist (cons type 'coleslaw-mode)))
+#+END_SRC
+
+to your init.
+
+You may choose to advise the coleslaw-insert-header function with
+=coleslaw-dispatch= if you have coleslaw-mode installed.
+
+More docs at
+https://spensertruex.com/coleslaw-snippets
