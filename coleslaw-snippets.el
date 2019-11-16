@@ -14,35 +14,8 @@
 ;; <https://www.gnu.org/licenses/>.
 
 ;;; Commentary:
-;; Snippets for all Coleslaw markdown files
-;;
-;; -   Also see coleslaw-mode for dispatching the mode based on the
-;; `format' header.
-;; -   To install for coleslaw-mode, add
-;;
-;; &nbsp;
-;; (add-hook 'coleslaw-mode-hook 'coleslaw-snippets)
-;;
-;; to your init file, and bind coleslaw-insert-header to a key like
-;;
-;; (global-set-key (kbd "C-c H") 'coleslaw-insert-header)
-;;
-;; You may also choose to use the autoinsert package to automatically
-;; insert the snippets into coleslaw markdown files. Then you would add:
-;;
-;; (dolist (type '("\\.page\\'" "\\.post\\'"))
-;;   (add-to-list 'auto-mode-alist (cons type 'coleslaw-mode)))
-;;
-;; to your init.
-;;
-;; You may choose to advise the coleslaw-insert-header function with
-;; coleslaw-dispatch if you have coleslaw-mode installed.
-;;
-;; More docs at https://spensertruex.com/coleslaw-snippets
-
-;;; Code:
-
 (require 'cl-lib)
+(require 'autoinsert)
 
 (defvar coleslaw-snippets-separator ";;;;;"
   "The string used between the coleslaw headers as in the example:
@@ -53,7 +26,7 @@ date: 2019-06-15
 ;;;;;
 Where the separator is \";;;;;\".")
 
-(defvar coleslaw-snippets-formats (list "md" "cl-who" "rst" "html" "org")
+(defvar coleslaw-snippets-formats '("md" "cl-who" "rst" "html" "org")
   "The format header values that coleslaw will allow to be auto-inserted.")
 
 (defun coleslaw-snippets--valid-format (str)
@@ -81,15 +54,19 @@ FIRST-PROMPT is NIL, the second-prompt is only used."
       (coleslaw-snippets--insist-format nil second-prompt))))
 
 ;;;###autoload
-(defun coleslaw-snippets-insert-header  ()
+(defun coleslaw-snippets-insert-header ()
   "Insert the skeleton for as specified by default for a coleslaw file type."
   (interactive)
   (skeleton-insert '(nil str
                          "\ntitle: "
                          (skeleton-read "title: ")
                          "\nformat: "
-                         (coleslaw-snippets--insist-format "format: "
-                                                  "Bad format, try another format: ")
+                         (progn (setq v1
+                                      (coleslaw-snippets--insist-format
+                                       "format: "
+                                       "Bad format, try another format: "))
+                                (coleslaw-dispatch-format v1)
+                                v1)
                          (if (coleslaw-snippets--bufftype ".page")
                              (concat "\nurl: " (skeleton-read "url: "))
                            "")

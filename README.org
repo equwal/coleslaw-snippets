@@ -3,6 +3,11 @@
 #+EMAIL: web@spensertruex.com
 
 ** Snippets for all Coleslaw markdown files
+
+Docs available as: [[https://spensertruex.com/coleslaw-snippets][HTML]] | [[https://github.com/equwal/coleslaw-snippets/blob/master/README.org][ORG-mode]] | [[https://github.com/equwal/coleslaw-snippets/blob/master/coleslaw-snippets.el][Plain Text]]
+
+Code on [[https://githu.com/equwal/coleslaw-snippets][github]]
+
 - Also see coleslaw-mode for dispatching the mode based on the =format:= header.
 - To install for coleslaw-mode, add
 #+BEGIN_SRC emacs-lisp :tangle no
